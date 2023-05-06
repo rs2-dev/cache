@@ -5,7 +5,7 @@ export class CRC32 {
     /**
      * A static CRC lookup table
      */
-    private static readonly crc32Lookup = Util.arraycopy(Util.makeU32Buffer(256), [
+    private static readonly crc32Lookup: Uint32Array = Util.arraycopy(Util.makeU32Buffer(256), [
         0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9, 0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005,
         0x2608edb8, 0x22c9f00f, 0x2f8ad6d6, 0x2b4bcb61, 0x350c9b64, 0x31cd86d3, 0x3c8ea00a, 0x384fbdbd,
         0x4c11db70, 0x48d0c6c7, 0x4593e01e, 0x4152fda9, 0x5f15adac, 0x5bd4b01b, 0x569796c2, 0x52568b75,
@@ -43,31 +43,32 @@ export class CRC32 {
     /**
      * The current CRC
      */
-    private crc = 0xffffffff;
+    private crc: number = 0xffffffff;
 
     /**
      * @return The current CRC
      */
-    getCRC() {
+    getCRC(): number {
         return (~this.crc) >>> 0; // return an unsigned value
-    };
+    }
 
     /**
      * Update the CRC with a single byte
      * @param value The value to update the CRC with
      */
-    updateCRC(value) {
+    updateCRC(value: number): void {
         this.crc = (this.crc << 8) ^ CRC32.crc32Lookup[((this.crc >>> 24) ^ value) & 0xff];
-    };
+    }
 
     /**
      * Update the CRC with a sequence of identical bytes
      * @param value The value to update the CRC with
      * @param count The number of bytes
      */
-    updateCRCRun(value, count) {
+    updateCRCRun(value: number, count: number): void {
         while (count-- > 0) {
             this.crc = (this.crc << 8) ^ CRC32.crc32Lookup[((this.crc >>> 24) ^ value) & 0xff];
         }
-    };
-};
+    }
+
+}
