@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "Node16",
+        "target": "es6",
+        "importHelpers": true,
+        "moduleResolution": "Node16",
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "baseUrl": "./src",
+        "allowJs": true,
+        "declaration": true,
+        "outDir": "./lib",
+        "types": [
+            "node"
+        ]
+    },
+    "include": [ "src/" ],
+    "exclude": [ "!src/" ]
+}
