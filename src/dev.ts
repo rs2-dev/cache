@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
-import { HeadlessBzip2 } from './compression/headless-bzip2';
 import Bzip2 from './compression/bzip2/bzip2';
+import logger from './util/logger';
 
 const testBzip2 = () => {
     const bz2Data = readFileSync('./data/unnamed.jpg.bz2');
@@ -8,7 +8,7 @@ const testBzip2 = () => {
     // const unzipped = HeadlessBzip2.decompress(bz2Data);
     const unzipped = Bzip2.decompressFile(bz2Data);
 
-    console.log(`zipped len: ${bz2Data.length}, unzipped len: ${unzipped.length}`);
+    logger.info(`zipped len: ${bz2Data.length}, unzipped len: ${unzipped.length}`);
 
     // writeFileSync('./data/obj.dat', unzipped);
     writeFileSync('./data/unnamed.jpg', unzipped);
@@ -16,7 +16,7 @@ const testBzip2 = () => {
     // const rezipped = HeadlessBzip2.compress(unzipped);
     const rezipped = Bzip2.compressFile(unzipped, undefined, 1);
 
-    console.log(`rezipped len: ${rezipped.length}`);
+    logger.info(`rezipped len: ${rezipped.length}`);
 };
 
 (async function() {
