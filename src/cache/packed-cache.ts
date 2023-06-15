@@ -1,28 +1,28 @@
 import { DataBuffer } from '@rs2/buffer';
 import { DataFile } from './data-file';
 import { IndexFile } from './index-file';
-import { FileStoreFormat } from './file-store';
+import { CacheFormat } from './cache';
 import logger from '../util/logger';
 
-export const packedFileStoreFileName = 'main_file_cache';
-export const jagDataFileName = packedFileStoreFileName + '.dat';
-export const js5DataFileName = packedFileStoreFileName + '.dat2';
+export const packedCacheFileName = 'main_file_cache';
+export const jagDataFileName = packedCacheFileName + '.dat';
+export const js5DataFileName = packedCacheFileName + '.dat2';
 
-export type PackedFileStore = { [fileName: string]: Buffer | DataBuffer };
+export type PackedCache = { [fileName: string]: Buffer | DataBuffer };
 
-export const readPackedFileStore = (
-    packedFileStore: PackedFileStore,
+export const readPackedCache = (
+    packedCache: PackedCache,
 ): {
     dataFile: DataFile;
     indexFiles: IndexFile[];
 } => {
-    const fileNames = Object.keys(packedFileStore);
+    const fileNames = Object.keys(packedCache);
 
     if (!fileNames.length) {
         throw new Error('No file provided.');
     }
 
-    let format: FileStoreFormat;
+    let format: CacheFormat;
 
     if (fileNames.includes(js5DataFileName)) {
         format = 'js5';
@@ -32,7 +32,7 @@ export const readPackedFileStore = (
         throw new Error('Main cache data file not found.');
     }
 
-    const fileEntries = Object.entries(packedFileStore);
+    const fileEntries = Object.entries(packedCache);
     const indexFiles: IndexFile[] = [];
     const dataFile: DataFile = {
         cacheFormat: format
@@ -40,7 +40,7 @@ export const readPackedFileStore = (
 
     for (const [fileName, fileData] of fileEntries) {
         // File name must begin with `main_file_cache`
-        if (!fileName?.length || !fileName.startsWith(packedFileStoreFileName)) {
+        if (!fileName?.length || !fileName.startsWith(packedCacheFileName)) {
             continue;
         }
 

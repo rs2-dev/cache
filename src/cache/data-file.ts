@@ -1,10 +1,10 @@
 import { DataBuffer } from '@rs2/buffer';
-import { FileStoreFormat } from './file-store';
+import { CacheFormat } from './cache';
 import { getIndexEntry, IndexFile } from './index-file';
 
 
 export interface DataFile {
-    cacheFormat: FileStoreFormat;
+    cacheFormat: CacheFormat;
     data?: DataBuffer;
 }
 
